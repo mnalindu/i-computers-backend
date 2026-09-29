@@ -5,9 +5,10 @@ import studentRouter from "./routes/studentRouter.js"
 import userRouter from "./routes/userRouter.js"
 import jwt from "jsonwebtoken"
 import authenticateUser from "./middleware/Authencdication.js"
+import dotenv from "dotenv"
+dotenv.config()
 
-const mongo_url ="mongodb://admin2:5736@ac-l3ytabo-shard-00-00.ex4xk4w.mongodb.net:27017,ac-l3ytabo-shard-00-01.ex4xk4w.mongodb.net:27017,ac-l3ytabo-shard-00-02.ex4xk4w.mongodb.net:27017/?ssl=true&replicaSet=atlas-65jtkc-shard-0&authSource=admin&appName=Cluster0"
-
+const mongo_url = process.env.MONGO_URI
 mongoose.connect(mongo_url)
 
 mongoose.connect(mongo_url).then(
