@@ -3,7 +3,7 @@ import express from "express"
 import mongoose from "mongoose"
 import studentRouter from "./routes/studentRouter.js"
 import userRouter from "./routes/userRouter.js"
-import jwt from "jsonwebtoken"
+import productRouter from "./routes/productRouter.js"
 import authenticateUser from "./middleware/Authencdication.js"
 import dotenv from "dotenv"
 dotenv.config()
@@ -25,9 +25,7 @@ app.use(authenticateUser)
 
 app.use("/students", studentRouter )
 app.use("/users" , userRouter)
-
-
-
+app.use("/products", productRouter)
 
 /*function go() {
     console.log("sever is running")

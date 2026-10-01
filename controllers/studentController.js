@@ -1,4 +1,5 @@
 import Student from "../models/student.js"
+import { isAdmin } from "./userController.js";
 
 //export function getAllStudents(req ,res){
 //        Student.find().then(
@@ -26,24 +27,17 @@ export async function getAllStudents(req, res) {
 }
 
 export function createStudent(req, res) {
-        if(req.user == null){
-            return res.status(401).json({ message: "you need to login first before creating a student" });
-
-        }
-
-        if(!req.user.isAdmin){
-            res.status(403).json({ message: "You are not authorized to create students" });
-            return;
-        }
-        
-        const student = new Student(req.body);
+        if(isAdmin(req)){
+            const student = new Student(req.body);
     
-        student.save().then(()=> {
-        res.json(
-                    {
-                        message: "Student added successfully"
-                    }
-                );
-        });  
+            student.save().then(()=> {
+                 res.json({message: "Student added successfully"});
+            });  
+
+        }
+        else{
+            res.status(403).json({ message: "You are not authorized to create students" });
+        }
+         
     };
 

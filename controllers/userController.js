@@ -1,6 +1,8 @@
 import User from '../models/user.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export async function createUser(req, res) {
     try {
@@ -33,7 +35,6 @@ export async function loginUser(req, res){
         const password = req.body.password;
 
         const user = await User.findOne({ email: email });
-
         if(user == null){
             return res.status(404).json({ message: "User not found" });
             return;
@@ -52,7 +53,7 @@ export async function loginUser(req, res){
                 isBlocked: user.isBlocked
             };
             
-            const token = jwt.sign(userInfo, "secret")
+            const token = jwt.sign(userInfo, process.env.JWT_SECRET)
 
             res.json({token: token });
                 
@@ -67,4 +68,14 @@ export async function loginUser(req, res){
       }
 
 
+}
+
+export function isAdmin(req){
+     if(req.user == null){
+        return false;
+     }
+     if(!req.user.isAdmin){
+        return false;
+     }
+     return true;
 }
